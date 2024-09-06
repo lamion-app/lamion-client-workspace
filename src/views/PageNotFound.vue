@@ -6,10 +6,8 @@
 
 <script>
 export default {
-  name: 'PageNotFound'
-}
+  name: "PageNotFound",
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

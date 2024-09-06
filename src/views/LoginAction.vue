@@ -1,7 +1,9 @@
 <template>
   <article>
     <form class="form md-layout" @submit.prevent="validate" novalidate>
-      <md-card class="form-content md-layout-item md-elevation-4 md-size-30 md-small-size-100">
+      <md-card
+        class="form-content md-layout-item md-elevation-4 md-size-30 md-small-size-100"
+      >
         <md-card-header>
           <div class="md-title">Войти в Lamion</div>
         </md-card-header>
@@ -9,32 +11,53 @@
         <md-card-content>
           <md-field :class="getValidationClass('email')">
             <label for="email">Email</label>
-            <md-input id="email" type="email" name="email"
-                autocomplete="email"
-                v-model="form.email"
-                v-on:focus="error.login = false"
-                v-bind:disabled="UIDisabled" />
+            <md-input
+              id="email"
+              type="email"
+              name="email"
+              autocomplete="email"
+              v-model="form.email"
+              v-on:focus="error.login = false"
+              v-bind:disabled="UIDisabled"
+            />
 
-            <span class="md-error" v-if="!$v.form.email.required">Введите почту</span>
-            <span class="md-error" v-else-if="!$v.form.email.email">Почта указана неверно</span>
-            <span class="md-error" v-else-if="error.login">Пользователя с такими данными не существует</span>
+            <span class="md-error" v-if="!$v.form.email.required"
+              >Введите почту</span
+            >
+            <span class="md-error" v-else-if="!$v.form.email.email"
+              >Почта указана неверно</span
+            >
+            <span class="md-error" v-else-if="error.login"
+              >Пользователя с такими данными не существует</span
+            >
           </md-field>
 
           <md-field :class="getValidationClass('password')">
             <label for="password">Пароль</label>
-            <md-input id="password" type="password" name="password"
-                autocomplete="password"
-                v-model="form.password"
-                v-on:focus="error.login = false"
-                v-bind:disabled="UIDisabled"></md-input>
+            <md-input
+              id="password"
+              type="password"
+              name="password"
+              autocomplete="password"
+              v-model="form.password"
+              v-on:focus="error.login = false"
+              v-bind:disabled="UIDisabled"
+            ></md-input>
 
-            <span class="md-error" v-if="!$v.form.password.required">Введите пароль</span>
-            <span class="md-error" v-else-if="error.login">Пользователя с такими данными не существует</span>
+            <span class="md-error" v-if="!$v.form.password.required"
+              >Введите пароль</span
+            >
+            <span class="md-error" v-else-if="error.login"
+              >Пользователя с такими данными не существует</span
+            >
           </md-field>
 
-          <md-button type="submit"
+          <md-button
+            type="submit"
             class="btn--submit md-raised md-primary"
-            v-bind:disabled="UIDisabled">Войти</md-button>
+            v-bind:disabled="UIDisabled"
+            >Войти</md-button
+          >
 
           <div class="text-divider">
             <md-divider class="divider"></md-divider>
@@ -42,7 +65,9 @@
           </div>
 
           <div class="action">
-            <RouterLink to="/register" class="link md-body-1 md-primary" exact>Зарегистрироваться</RouterLink>
+            <RouterLink to="/register" class="link md-body-1 md-primary" exact
+              >Зарегистрироваться</RouterLink
+            >
           </div>
         </md-card-content>
 
@@ -50,102 +75,103 @@
       </md-card>
 
       <md-dialog-alert
-        :md-active.sync="dialog.serverError"
+        v-model:md-active="dialog.serverError"
         md-title="Ошибка!"
-        md-content="Во время входа возникла ошибка. Повторите попытку позже." />
+        md-content="Во время входа возникла ошибка. Повторите попытку позже."
+      />
     </form>
   </article>
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, email } from 'vuelidate/lib/validators'
-import api from '../assets/scripts/api'
+import { validationMixin } from "vuelidate";
+import { required, email } from "vuelidate/lib/validators";
+import api from "../assets/scripts/api";
 
 export default {
-  name: 'LoginAction',
+  name: "LoginAction",
   mixins: [validationMixin],
   data: () => ({
     form: {
       email: null,
-      password: null
+      password: null,
     },
     sending: false,
     dialog: {
-      serverError: false
+      serverError: false,
     },
     error: {
       login: false,
-      server: false
-    }
+      server: false,
+    },
   }),
   computed: {
     UIDisabled: function () {
-      return (this.sending || this.error.server)
-    }
+      return this.sending || this.error.server;
+    },
   },
   validations: {
     form: {
       email: {
         required,
-        email
+        email,
       },
       password: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     getValidationClass: function (fieldName) {
-      const field = this.$v.form[fieldName]
+      const field = this.$v.form[fieldName];
 
       if (field) {
         return {
-          'md-invalid': ((field.$invalid && field.$dirty) || this.error.login)
-        }
+          "md-invalid": (field.$invalid && field.$dirty) || this.error.login,
+        };
       }
     },
     validate: function () {
-      this.$v.$touch()
+      this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.submit()
+        this.submit();
       }
     },
     submit: async function () {
-      this.sending = true
+      this.sending = true;
 
       try {
-        const json = await api.auth.login(this.form.email, this.form.password)
-        this.onAuthSuccess(json)
+        const json = await api.auth.login(this.form.email, this.form.password);
+        this.onAuthSuccess(json);
       } catch (error) {
-        this.onAuthFailed(error)
+        this.onAuthFailed(error);
       }
     },
     onAuthSuccess: function (json) {
-      this.$store.commit('setUser', {
+      this.$store.commit("setUser", {
         id: json.user.id,
-        email: json.user.email
-      })
-      this.$store.commit('setToken', json.token)
-      this.$router.replace('/')
+        email: json.user.email,
+      });
+      this.$store.commit("setToken", json.token);
+      this.$router.replace("/");
     },
     onAuthFailed: function (err) {
       if (err.status === 400) {
-        this.error.login = true
+        this.error.login = true;
       } else {
-        this.showDialog = true
-        this.error.login = false
-        this.error.server = true
-        this.dialog.serverError = true
+        this.showDialog = true;
+        this.error.login = false;
+        this.error.server = true;
+        this.dialog.serverError = true;
       }
 
-      this.sending = false
-    }
-  }
-}
+      this.sending = false;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  @import '../assets/css/form.scss';
+@import "../assets/css/form.scss";
 </style>

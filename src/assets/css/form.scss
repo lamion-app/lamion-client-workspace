@@ -1,4 +1,4 @@
-@import './theme.scss';
+@import "./theme.scss";
 
 .article {
   padding: 12px 48px;
@@ -10,12 +10,13 @@
   }
 }
 
-.article, .form {
+.article,
+.form {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   @media screen and (max-width: 618px) {
     & {
       align-items: flex-start;
@@ -55,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: .4rem 0;
+    margin: 0.4rem 0;
 
     .divider {
       position: absolute;
@@ -68,11 +69,11 @@
     .text {
       position: relative;
       user-select: none;
-      padding: .4rem .8rem;
+      padding: 0.4rem 0.8rem;
       display: inline-block;
       z-index: 3;
       background-color: var(--md-theme-default-background, #fff);
-      
+
       @media screen and (max-width: 618px) {
         & {
           background-color: $window-background;

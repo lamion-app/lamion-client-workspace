@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <md-toolbar class="md-primary">
       <div class="md-toolbar-section-start">
         <md-button class="md-icon-button" v-on:click="showNavigation = true">
@@ -10,8 +9,7 @@
       </div>
     </md-toolbar>
 
-    <md-drawer :md-active.sync="showNavigation">
-
+    <md-drawer v-model:md-active="showNavigation">
       <md-list v-if="user == null">
         <RouterLink to="/login" exact>
           <md-list-item href="#">
@@ -35,11 +33,12 @@
       </md-list>
 
       <md-list v-else>
-
         <md-list-item>
           <span class="md-list-item-text">
             <span>{{ user.email }}</span>
-            <span v-on:click="showLogoutDialog" class="btn-logout md-primary">Выйти</span>
+            <span v-on:click="showLogoutDialog" class="btn-logout md-primary"
+              >Выйти</span
+            >
           </span>
         </md-list-item>
 
@@ -63,7 +62,6 @@
           </md-list-item>
         </RouterLink>
       </md-list>
-
     </md-drawer>
 
     <router-view class="article" />
@@ -71,121 +69,122 @@
     <md-dialog-alert
       md-title="Error!"
       md-content="An error occurred during automatic login."
-      v-bind:md-active.sync="dialogs.autoLoginFailed" />
+      v-model:md-active="dialogs.autoLoginFailed"
+    />
 
     <md-dialog-confirm
       md-title="Выйти из Lamion?"
       md-confirm-text="Продолжить"
       md-cancel-text="Отмена"
-      v-bind:md-active.sync="dialogs.logout"
-      v-on:md-confirm="logout" />
+      v-model:md-active="dialogs.logout"
+      v-on:md-confirm="logout"
+    />
   </div>
-
 </template>
 
 <script>
-import Vue from 'vue'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
-import api from './assets/scripts/api'
-import config from './config'
+import Vue from "vue";
+import VueMaterial from "vue-material";
+import "vue-material/dist/vue-material.min.css";
+import "vue-material/dist/theme/default.css";
+import api from "./assets/scripts/api";
+import config from "./config";
 
-Vue.use(VueMaterial)
+Vue.use(VueMaterial);
 
 export default {
-  name: 'App',
+  name: "App",
   data: function () {
     return {
       showNavigation: false,
       loginFailed: false,
       dialogs: {
         autoLoginFailed: false,
-        logout: false
-      }
-    }
+        logout: false,
+      },
+    };
   },
   computed: {
-    user () {
-      return this.$store.state.user
+    user() {
+      return this.$store.state.user;
     },
-    token () {
-      return this.$store.state.token
+    token() {
+      return this.$store.state.token;
     },
-    title () {
-      return this.$store.state.pageTitle
+    title() {
+      return this.$store.state.pageTitle;
     },
-    isLoggedIn () {
-      return (this.user != null)
-    }
+    isLoggedIn() {
+      return this.user != null;
+    },
   },
   methods: {
     showLogoutDialog: function () {
-      this.showNavigation = false
-      this.dialogs.logout = true
+      this.showNavigation = false;
+      this.dialogs.logout = true;
     },
     login: async function () {
       try {
-        const token = this.$store.state.token
-        const json = await api.user.load(token)
-        this.onAuthSuccess(json)
+        const token = this.$store.state.token;
+        const json = await api.user.load(token);
+        this.onAuthSuccess(json);
       } catch (error) {
-        this.onAuthFailed(error)
+        this.onAuthFailed(error);
       }
     },
     logout: function () {
-      this.$store.commit('setUser', null)
-      this.$store.commit('setToken', null)
-      this.$router.go()
+      this.$store.commit("setUser", null);
+      this.$store.commit("setToken", null);
+      this.$router.go();
     },
     onAuthSuccess: function (json) {
-      console.log(`Auto login: ${json.email}.`)
-      this.$store.commit('setUser', {
+      console.log(`Auto login: ${json.email}.`);
+      this.$store.commit("setUser", {
         id: json.id,
-        email: json.email
-      })
+        email: json.email,
+      });
     },
     onAuthFailed: function (error) {
-      console.error(`Auto login failed: ${error}`)
+      console.error(`Auto login failed: ${error}`);
 
-      this.$store.commit('setUser', null)
-      window.localStorage.clear()
-      this.dialogs.autoLoginFailed = true
-    }
+      this.$store.commit("setUser", null);
+      window.localStorage.clear();
+      this.dialogs.autoLoginFailed = true;
+    },
   },
   created: function () {
-    const token = localStorage.getItem('token')
-    this.$store.commit('setToken', token)
+    const token = localStorage.getItem("token");
+    this.$store.commit("setToken", token);
     if (token !== null) {
-      this.login()
+      this.login();
     }
   },
   watch: {
     title: {
       immediate: true,
-      handler (to, from) {
-        document.title = to || config.applicationName
-      }
+      handler(to, from) {
+        document.title = to || config.applicationName;
+      },
     },
     token: {
       immediate: true,
-      handler (to, from) {
-        if (typeof from !== 'undefined' && to !== from) {
+      handler(to, from) {
+        if (typeof from !== "undefined" && to !== from) {
           if (to === null) {
-            localStorage.clear()
+            localStorage.clear();
           } else {
-            localStorage.setItem('token', to)
+            localStorage.setItem("token", to);
           }
         }
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-@import './assets/css/app.scss';
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import "./assets/css/app.scss";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
 $toolbar-height: 64px;
 
 * {
@@ -194,7 +193,9 @@ $toolbar-height: 64px;
   box-sizing: border-box;
 }
 
-html, body, #app {
+html,
+body,
+#app {
   width: 100%;
   height: auto !important;
   min-height: 100vh !important;
@@ -219,5 +220,4 @@ body {
   height: auto;
   min-height: calc(100% - $toolbar-height);
 }
-
 </style>

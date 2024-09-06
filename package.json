@@ -1,56 +1,42 @@
 {
   "name": "lamion",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --skip-plugins @vue/cli-plugin-eslint",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "pretty": "prettier --write \"./**/*.{js,jsx,mjs,vue,cjs,ts,tsx,json,css,scss}\""
   },
   "dependencies": {
-    "chart.js": "^3.7.1",
+    "@vue/composition-api": "^1.6.2",
+    "chart.js": "^3.9.1",
+    "core-js": "^3.38.1",
     "vue": "^2.6.14",
-    "vue-chart-3": "^2.1.2",
-    "vue-material": "^1.0.0-beta-15",
-    "vue-router": "^3.5.1",
+    "vue-chart-3": "^2.1.3",
+    "vue-material": "^1.0.0-beta-16",
+    "vue-router": "^3.6.5",
     "vuelidate": "^0.7.7",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "@vue/eslint-config-standard": "^6.1.0",
+    "@vue/eslint-config-typescript": "^9.1.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "sass": "^1.32.7",
-    "sass-loader": "^12.0.0",
-    "vue-template-compiler": "^2.6.14"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^8.7.1",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.8.8",
+    "sass": "^1.78.0",
+    "sass-loader": "^12.6.0",
+    "vue-template-compiler": "^2.7.16"
+  }
 }

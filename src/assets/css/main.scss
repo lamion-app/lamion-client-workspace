@@ -1,4 +1,3 @@
-
 $mobile-device-width: 800px;
 $tablet-device-width: 1024px;
 
@@ -31,7 +30,7 @@ $content-spacing-mobile: 0;
     height: auto !important;
     min-height: 100%;
     margin: 0 $content-spacing-desktop;
-    
+
     @media screen and (max-width: $tablet-device-width) {
       & {
         margin: 0 $content-spacing-tablet;
